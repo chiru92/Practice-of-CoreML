@@ -36,7 +36,9 @@ final class ViewController: UIViewController {
   @IBOutlet private var radioLabel: UILabel!
   @IBOutlet private var newspaperLabel: UILabel!
   @IBOutlet private var salesLabel: UILabel!
+  
   private let numberFormatter = NumberFormatter()
+  private let advertising = Advertising()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -52,7 +54,11 @@ final class ViewController: UIViewController {
     let radio = Double(radioSlider.value)
     let newspaper = Double(newspaperSlider.value)
     
-    let sales = 0.0
+//    let sales = 0.0
+    let input = AdvertisingInput(TV: tv, radio: radio, newspaper: newspaper)
+    guard let output = try? advertising.prediction(input: input) else { return }
+    
+    let sales = output.sales
     
     tvLabel.text = numberFormatter.string(from: tv as NSNumber)
     radioLabel.text = numberFormatter.string(from: radio as NSNumber)
